@@ -1,9 +1,9 @@
 /**
  * Clinic GPT – Unified Production API Client
- * Connects directly to the live Clinic GPT Backend.
+ * Connects directly to the 24/7 Live Railway Cloud Backend.
  */
 
-const LIVE_BACKEND_URL = 'https://products-copying-holds-submission.trycloudflare.com';
+const LIVE_BACKEND_URL = 'https://clinic-backend-production-d0c4.up.railway.app';
 
 const getInitialBaseUrl = (): string => {
   if (typeof window !== 'undefined') {
@@ -22,7 +22,7 @@ const getInitialBaseUrl = (): string => {
     return envUrl.trim().replace(/\/+$/, '');
   }
 
-  // Live Default Backend
+  // 24/7 Standalone Cloud Backend on Railway
   return LIVE_BACKEND_URL;
 };
 
