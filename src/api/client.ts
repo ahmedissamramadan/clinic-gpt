@@ -1,7 +1,9 @@
 /**
  * Clinic GPT – Unified Production API Client
- * Connects directly to the FastAPI RAG Backend on Railway/Render.
+ * Connects directly to the live Clinic GPT Backend.
  */
+
+const LIVE_BACKEND_URL = 'https://products-copying-holds-submission.trycloudflare.com';
 
 const getInitialBaseUrl = (): string => {
   if (typeof window !== 'undefined') {
@@ -16,12 +18,12 @@ const getInitialBaseUrl = (): string => {
     (import.meta as any).env?.NEXT_PUBLIC_API_URL ||
     '';
 
-  if (envUrl && envUrl.trim()) {
+  if (envUrl && envUrl.trim() && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
     return envUrl.trim().replace(/\/+$/, '');
   }
 
-  // Default fallback
-  return 'http://127.0.0.1:8000';
+  // Live Default Backend
+  return LIVE_BACKEND_URL;
 };
 
 export class ClinicApiClient {
@@ -45,7 +47,7 @@ export class ClinicApiClient {
 
   public setBaseUrl(url: string): void {
     const cleaned = (url || '').trim().replace(/\/+$/, '');
-    this.baseUrl = cleaned || 'http://127.0.0.1:8000';
+    this.baseUrl = cleaned || LIVE_BACKEND_URL;
     if (typeof window !== 'undefined') {
       localStorage.setItem('CLINIC_GPT_API_URL', this.baseUrl);
     }
@@ -89,7 +91,7 @@ export class ClinicApiClient {
         isHealthy: false, 
         latencyMs, 
         error: err.name === 'AbortError' 
-          ? 'Connection timed out (8s) – Check if backend is awake' 
+          ? 'Connection timed out (8s)' 
           : (err.message || 'Failed to fetch (Check CORS / Backend URL)')
       };
     }
